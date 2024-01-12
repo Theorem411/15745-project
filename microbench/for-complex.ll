@@ -1,0 +1,60 @@
+; ModuleID = 'for-complex.bc'
+source_filename = "for-complex.cpp"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+; Function Attrs: mustprogress noinline nounwind uwtable
+define dso_local void @_Z4loopPA10_i([10 x i32]* noundef %A) #0 {
+entry:
+  br label %for.body
+
+for.body:                                         ; preds = %entry, %for.inc14
+  %i.02 = phi i32 [ 0, %entry ], [ %add15, %for.inc14 ]
+  br label %for.body3
+
+for.body3:                                        ; preds = %for.body, %for.inc
+  %j.01 = phi i32 [ 0, %for.body ], [ %add13, %for.inc ]
+  %idxprom = zext i32 %i.02 to i64
+  %idxprom4 = zext i32 %i.02 to i64
+  %arrayidx5 = getelementptr inbounds [10 x i32], [10 x i32]* %A, i64 %idxprom, i64 %idxprom4
+  store i32 0, i32* %arrayidx5, align 4
+  %add = add nuw nsw i32 %i.02, %j.01
+  %idxprom6 = zext i32 %add to i64
+  %arrayidx8 = getelementptr inbounds [10 x i32], [10 x i32]* %A, i64 %idxprom6, i64 0
+  store i32 1, i32* %arrayidx8, align 4
+  %add9 = add nuw nsw i32 %i.02, %j.01
+  %mul = shl nuw nsw i32 %add9, 1
+  %idxprom10 = zext i32 %mul to i64
+  %arrayidx12 = getelementptr inbounds [10 x i32], [10 x i32]* %A, i64 %idxprom10, i64 0
+  store i32 1, i32* %arrayidx12, align 4
+  br label %for.inc
+
+for.inc:                                          ; preds = %for.body3
+  %add13 = add nuw nsw i32 %j.01, 2
+  %cmp2 = icmp ult i32 %j.01, 8
+  br i1 %cmp2, label %for.body3, label %for.end, !llvm.loop !4
+
+for.end:                                          ; preds = %for.inc
+  br label %for.inc14
+
+for.inc14:                                        ; preds = %for.end
+  %add15 = add nuw nsw i32 %i.02, 2
+  %cmp = icmp ult i32 %i.02, 8
+  br i1 %cmp, label %for.body, label %for.end16, !llvm.loop !6
+
+for.end16:                                        ; preds = %for.inc14
+  ret void
+}
+
+attributes #0 = { mustprogress noinline nounwind uwtable "frame-pointer"="all" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
+
+!llvm.module.flags = !{!0, !1, !2}
+!llvm.ident = !{!3}
+
+!0 = !{i32 1, !"wchar_size", i32 4}
+!1 = !{i32 7, !"uwtable", i32 1}
+!2 = !{i32 7, !"frame-pointer", i32 2}
+!3 = !{!"clang version 14.0.6 (/afs/ece/project/seth_group/ziqiliu/uli-opencilk-project/clang a3c5ebae5d3682f08ee5fffc20678b8b69c3ae06)"}
+!4 = distinct !{!4, !5}
+!5 = !{!"llvm.loop.mustprogress"}
+!6 = distinct !{!6, !5}

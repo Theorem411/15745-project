@@ -1,0 +1,50 @@
+Printing analysis 'Scalar Evolution Analysis' for function 'loop':
+Classifying expressions for: @loop
+  %i.0 = phi i32 [ 0, %entry ], [ %inc12, %for.inc11 ]
+  -->  {0,+,1}<nuw><nsw><%for.cond> U: [0,101) S: [0,101)		Exits: 100		LoopDispositions: { %for.cond: Computable, %for.cond1: Invariant }
+  %j.0 = phi i32 [ 0, %for.body ], [ %inc, %for.inc ]
+  -->  {0,+,1}<nuw><nsw><%for.cond1> U: [0,11) S: [0,11)		Exits: 10		LoopDispositions: { %for.cond1: Computable, %for.cond: Variant }
+  %idxprom = sext i32 %i.0 to i64
+  -->  {0,+,1}<nuw><nsw><%for.cond> U: [0,101) S: [0,101)		Exits: {0,+,1}<nuw><nsw><%for.cond>		LoopDispositions: { %for.cond1: Invariant, %for.cond: Computable }
+  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %B, i64 %idxprom
+  -->  {%B,+,400}<nw><%for.cond> U: full-set S: full-set		Exits: {%B,+,400}<nw><%for.cond>		LoopDispositions: { %for.cond1: Invariant, %for.cond: Computable }
+  %mul = mul nsw i32 %j.0, %j.0
+  -->  {0,+,1,+,2}<%for.cond1> U: full-set S: full-set		Exits: 100		LoopDispositions: { %for.cond1: Computable, %for.cond: Variant }
+  %idxprom4 = sext i32 %mul to i64
+  -->  (sext i32 {0,+,1,+,2}<%for.cond1> to i64) U: [-2147483648,2147483648) S: [-2147483648,2147483648)		Exits: 100		LoopDispositions: { %for.cond1: Computable, %for.cond: Variant }
+  %arrayidx5 = getelementptr inbounds [100 x i32], [100 x i32]* %arrayidx, i64 0, i64 %idxprom4
+  -->  ((4 * (sext i32 {0,+,1,+,2}<%for.cond1> to i64))<nsw> + {%B,+,400}<nw><%for.cond>) U: full-set S: full-set		Exits: {(400 + %B),+,400}<nw><%for.cond>		LoopDispositions: { %for.cond1: Computable, %for.cond: Variant }
+  %0 = load i32, i32* %arrayidx5, align 4
+  -->  %0 U: full-set S: full-set		Exits: <<Unknown>>		LoopDispositions: { %for.cond1: Variant, %for.cond: Variant }
+  %idxprom6 = sext i32 %i.0 to i64
+  -->  {0,+,1}<nuw><nsw><%for.cond> U: [0,101) S: [0,101)		Exits: {0,+,1}<nuw><nsw><%for.cond>		LoopDispositions: { %for.cond1: Invariant, %for.cond: Computable }
+  %arrayidx7 = getelementptr inbounds [100 x i32], [100 x i32]* %A, i64 %idxprom6
+  -->  {%A,+,400}<nw><%for.cond> U: full-set S: full-set		Exits: {%A,+,400}<nw><%for.cond>		LoopDispositions: { %for.cond1: Invariant, %for.cond: Computable }
+  %mul8 = mul nsw i32 %p, %j.0
+  -->  {0,+,%p}<%for.cond1> U: full-set S: full-set		Exits: (10 * %p)		LoopDispositions: { %for.cond1: Computable, %for.cond: Variant }
+  %add = add nsw i32 %mul8, %k
+  -->  {%k,+,%p}<%for.cond1> U: full-set S: full-set		Exits: ((10 * %p) + %k)		LoopDispositions: { %for.cond1: Computable, %for.cond: Variant }
+  %idxprom9 = sext i32 %add to i64
+  -->  (sext i32 {%k,+,%p}<%for.cond1> to i64) U: [-2147483648,2147483648) S: [-2147483648,2147483648)		Exits: (sext i32 ((10 * %p) + %k) to i64)		LoopDispositions: { %for.cond1: Computable, %for.cond: Variant }
+  %arrayidx10 = getelementptr inbounds [100 x i32], [100 x i32]* %arrayidx7, i64 0, i64 %idxprom9
+  -->  ((4 * (sext i32 {%k,+,%p}<%for.cond1> to i64))<nsw> + {%A,+,400}<nw><%for.cond>) U: full-set S: full-set		Exits: {((4 * (sext i32 ((10 * %p) + %k) to i64))<nsw> + %A),+,400}<nw><%for.cond>		LoopDispositions: { %for.cond1: Computable, %for.cond: Variant }
+  %inc = add nsw i32 %j.0, 1
+  -->  {1,+,1}<nuw><nsw><%for.cond1> U: [1,12) S: [1,12)		Exits: 11		LoopDispositions: { %for.cond1: Computable, %for.cond: Variant }
+  %inc12 = add nsw i32 %i.0, 1
+  -->  {1,+,1}<nuw><nsw><%for.cond> U: [1,102) S: [1,102)		Exits: 101		LoopDispositions: { %for.cond: Computable, %for.cond1: Invariant }
+Determining loop execution counts for: @loop
+Loop %for.cond1: backedge-taken count is 10
+Loop %for.cond1: max backedge-taken count is 10
+Loop %for.cond1: Predicated backedge-taken count is 10
+ Predicates:
+
+Loop %for.cond1: Trip multiple is 11
+Loop %for.cond: backedge-taken count is 100
+Loop %for.cond: max backedge-taken count is 100
+Loop %for.cond: Predicated backedge-taken count is 100
+ Predicates:
+
+Loop %for.cond: Trip multiple is 101
+Printing analysis 'Scalar Evolution Analysis' for function 'main':
+Classifying expressions for: @main
+Determining loop execution counts for: @main
