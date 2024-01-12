@@ -1,0 +1,2 @@
+clang++ -Xclang -disable-O0-optnone -fopencilk -O0 --opencilk-resource-dir=/afs/ece/project/seth_group/ziqiliu/cheetah/build ./cilkbench/spMV-pf.bc -o spmvpf
+clang++ -Xclang -disable-O0-optnone -fopencilk -O0 --opencilk-resource-dir=/afs/ece/project/seth_group/ziqiliu/cheetah/build ./cilkbench/spMV.cpp -o spmv
